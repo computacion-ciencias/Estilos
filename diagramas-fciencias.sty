@@ -1,0 +1,173 @@
+%% ******* ********* ********* ********* ********* ********* ********* *********
+%% Style for block diagrams
+%% author: blackzafiro
+%% ©2013
+%% ******* ********* ********* ********* ********* ********* ********* *********
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{diagramas-fciencias}[2016/11/11 Various elements for diagrams using the Tikz library]
+
+%\usepackage{tikz,pgfplots,pgfplotstable}
+\pgfplotsset{cartesian plane/.style={width=10cm, height=5cm, axis lines=middle, enlargelimits, grid=both, legend pos=north west,
+    ylabel={$y$}, xlabel={$x$},
+    every axis x label/.style={
+	at={(ticklabel* cs:1)},
+	anchor=west,
+    },
+    every axis y label/.style={
+	at={(ticklabel* cs:1)},
+	anchor=south,
+    },
+    title style={yshift=2.5ex,}}}
+                
+
+%%
+%% Define block styles
+%%
+
+% General
+
+\tikzstyle{frame} = [draw=\colMarcos, text=black, very thick, text badly centered]
+\tikzstyle{framerect} = [rectangle, draw=\colMarcos, text=black, rounded corners=3pt, very thick, text badly centered]
+
+\tikzstyle{bloque} = [rectangle, rounded corners, draw=blue!50!black!100,
+                      fill=white, drop shadow,
+                      text centered, text width=8em]
+
+\tikzstyle{block} = [framerect, text width=3cm, text badly centered, node distance=2cm]
+\tikzstyle{smallBlock} = [rectangle, draw, top color=white, bottom color=blue!30, drop shadow, draw=blue!50!black!100, rounded corners]
+\tikzstyle{leaf} = [rectangle, minimum size=3mm, text width=3mm, inner sep=0pt]
+
+
+%%
+%% Arrows
+%%
+\tikzstyle{authomataArrow} = [-{Stealth[scale=2]}]
+\def\arrowZero{
+  (15.75:1.1) -- (6.5:1) arc (6.25:120:1) [rounded corners=0.5] --
+  (120:0.9) [rounded corners=1] -- (130:1.1) [rounded corners=0.5] --
+  (120:1.3) [sharp corners] -- (120:1.2) arc (120:5.25:1.2)
+  [rounded corners=1] -- (15.75:1.1) -- (6.5:1) -- cycle
+}
+\def\arrow{block
+  (0,0) -- (-0.2,0.2) -- (1.8, 0.2) [rounded corners=0.5] --
+  (1.8, 0.4) [sharp corners] -- (2.1, 0) [rounded corners=0.5] --
+  (1.8, -0.4) [sharp corners] -- (1.8, -0.2) [rounded corners=0.5] --
+  (-0.2,-0.2) -- cycle
+}
+\def\circularArrow{
+  (-50:1.1) -- (-60:1) arc (-60:240:1) [rounded corners=0.5] --
+  (240:0.7) [rounded corners=1] -- (255:1.2) [rounded corners=0.5] --
+  (240:1.5) [sharp corners] -- (240:1.2) arc (240:-60:1.2)
+  [rounded corners=1] -- cycle
+}
+\tikzset{
+  ashadow/.style={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},
+}
+\tikzstyle{themeEmphasis} = [color=\colMain, left color=\colMain, right color=\colMain!60, %
+    drop shadow={ashadow, color=\colMain!60!black}]
+\tikzstyle{redEmphasis} = [color=red, left color=red, right color=red!60, %
+    drop shadow={ashadow, color=red!60!black}]
+    
+    
+    
+%%
+%% Ellipses
+%%
+\tikzstyle{oval} = [ellipse, top color=white!70!Violeta!70, bottom color=Violeta, node distance=1.3cm, minimum height=2em, draw=Violeta]
+\tikzstyle{grayoval} = [ellipse, top color=white!70!Gray!70, bottom color=Gray, node distance=1.3cm, minimum height=2em, draw=Gray]
+\tikzstyle{blueoval} = [ellipse, top color=white!70!Blue!70, bottom color=Blue, node distance=1.3cm, minimum height=2em, draw=Blue]
+\tikzstyle{bboval} = [ellipse, top color=black!70!Blue!70, bottom color=Blue, node distance=1.3cm, minimum height=2em, draw=Blue, text=white,drop shadow]
+\tikzstyle{errasedoval} = [ellipse, top color=white!70!LightGray!70, bottom color=LightGray, node distance=1.3cm, minimum height=2em, draw=LightGray,text=Gray]
+\tikzstyle{arrow} = [->, decoration={markings,mark=at position 1 with {\arrow[scale=2]{>}}},
+    postaction={decorate},
+    shorten >=0.4pt]
+    
+    
+%%
+%% Circular nodes
+%%
+\tikzstyle{node} = [circle, top color=white, bottom color=teal!30, drop shadow, draw=teal!50!black!50, text centered ]
+\tikzstyle{nodeLav} = [circle, top color=white, bottom color=Lavender!30, drop shadow, draw=Lavender!50!black!70, text centered ]
+\tikzstyle{nodeBlue} = [circle, top color=white, bottom color=RoyalBlue!30, drop shadow, draw=RoyalBlue!50!black!70, text centered ]
+\tikzstyle{emphNode} = [circle, draw, top color=white, bottom color=red!30, drop shadow, draw=red!50!black!100, text centered ]
+\tikzstyle{grayNode} = [circle, draw, top color=white, bottom color=black!30, drop shadow, draw=black!50, text centered ]
+
+\tikzstyle{violetNode} = [draw=Violeta!50!black!100,bottom color=Violeta!50,top color=white, drop shadow]
+\tikzstyle{cobaltNode} = [draw=AzulCobaltoII!50!black!100,bottom color=AzulCobaltoII!50,top color=white, drop shadow]
+
+\tikzstyle{redNode} = [diamond, draw, top color=white, bottom color=red!30, drop shadow, draw=red!50!black!100, text centered ]
+\tikzstyle{blackNode} = [circle, draw, top color=white, bottom color=black!30, drop shadow, draw=black, text centered ]
+\tikzstyle{greenNode} = [circle, draw, top color=white, bottom color=green!30, drop shadow, draw=DarkGreen, text centered ]
+\tikzstyle{whiteNode} = [circle, draw, top color=white, bottom color=white, drop shadow, draw=black, text centered ]
+
+\tikzstyle{rndsquare} = [rectangle, rounded corners=2mm]
+
+
+
+
+
+%%
+%% Mini-max
+%%
+\tikzstyle{max} = [regular polygon, regular polygon sides=3,
+                   top color=white, bottom color=blue!50, draw=blue!50!black!100, drop shadow, text=black,
+                   text width=1em, text badly centered, node distance=2cm, inner sep=0pt]
+\tikzstyle{min} = [shape border rotate=180, regular polygon, regular polygon sides=3,
+                   top color=white, bottom color=Violeta!50, draw=Violeta!50!black!100, drop shadow, text=black,
+                   text width=1em, text badly centered, node distance=2cm, inner sep=0pt]
+\tikzstyle{degde} = [->, >=stealth, decoration={markings,mark=at position 1 with {\arrow[scale=3]{>}}},
+    postaction={decorate},
+    shorten >=0.4pt]
+    
+
+%%
+%% Neuronas
+%%
+\def\layersep{2.5cm}
+\tikzstyle{every pin edge}=[<-,shorten <=1pt]
+\tikzstyle{neuron}=[circle,fill=black!25,minimum size=17pt,inner sep=0pt]
+\tikzstyle{input neuron}=[neuron, fill=green!50]
+\tikzstyle{output neuron}=[neuron, fill=red!50]
+\tikzstyle{hidden neuron}=[neuron, fill=blue!50]
+\tikzstyle{annot} = [text width=4em, text centered]
+\tikzstyle{node weight} = [color=black!80, font=\small]
+\tikzstyle{node label} = [color=Cerulean, font=\small]
+\tikzstyle{emph} = [color=Cerulean]
+
+
+%%
+%% Lists
+%%
+\newcommand{\attribute}[1]{\textcolor{AzulCobaltoII}{#1}}
+\tikzstyle{lcolour} = [rounded corners, top color=white, bottom color=blue!30, drop shadow, draw=blue!50!black!100]
+\tikzstyle{lnode} = [rectangle split, rectangle split horizontal, rectangle split parts=2, lcolour]
+\tikzstyle{dlnode} = [rectangle split, rectangle split horizontal, rectangle split parts=3, lcolour]
+\tikzstyle{dotlessWavyLink} = [->,draw,decorate,decoration={snake, post=lineto, post length=1mm, mark=at position 1 with {\arrow[scale=4]{>}}}]
+\tikzstyle{wavyLink} = [*->,draw,decorate,decoration={snake, post=lineto, post length=1mm, mark=at position 1 with {\arrow[scale=4]{>}}}]
+\tikzstyle{clink} = [*->,draw,decorate,decoration={mark=at position 1 with {\arrow[scale=4]{>}}}]
+
+
+%%
+%% Classes
+%%
+\tikzstyle{class} = [rectangle, rounded corners, top color=white, bottom color=blue!30, drop shadow, draw=blue!50!black!100,
+                     text centered, anchor=north, text width=3cm,
+                     rectangle split, rectangle split parts=3, text justified]
+ \tikzstyle{simpleClass} = [rectangle, rounded corners, top color=white, bottom color=blue!30, drop shadow, draw=blue!50!black!100,
+                     text centered, anchor=north, text width=3cm]
+\tikzstyle{object} = [rectangle, rounded corners, top color=white, bottom color=blue!30, drop shadow, draw=blue!50!black!100,
+                     text centered, anchor=north, text width=3cm,
+                     rectangle split, rectangle split parts=2, text justified]
+\tikzstyle{associate} = []
+%\tikzstyle{inherits} = [->, >=open triangle 90]
+\tikzstyle{inherits} = [arrows = {-Stealth[inset=0pt, angle'=90, fill=white, scale=1.3]}]
+\tikzstyle{implements} = [arrows = {-Stealth[inset=0pt, angle'=90, fill=white, scale=1.3]}, dashed]
+\tikzstyle{aggregate} = [arrows = {Diamond[fill=white, scale=2]-}]
+\tikzstyle{composite} = [arrows = {Diamond[scale=2]-}]
+\tikzstyle{uses} = [-angle 60, decoration={markings,mark=at position 1 with {\arrow[scale=2]{angle 60}}},
+    postaction={decorate},
+    shorten >=0.4pt]
+\tikzstyle{depends} = [-angle 60, dashed, decoration={markings,mark=at position 1 with {\arrow[scale=2]{angle 60}}},
+    postaction={decorate},
+    shorten >=0.4pt]
+

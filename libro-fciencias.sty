@@ -1,0 +1,742 @@
+%% ******* ********* ********* ********* ********* ********* ********* *********
+%% Libro - Facultad de Ciencias
+%% author: blackzafiro
+%% ©2016
+%% ******* ********* ********* ********* ********* ********* ********* *********
+%% Requiere:
+%% texlive-latex-extra texlive-lang-spanish texlive-generic-extra texlive-science
+%% texlive-fonts-extra texlive-bibtex-extra biber
+%% biber
+
+
+
+%%
+%% Formato
+%%
+\usepackage[paper=letterpaper, asymmetric, bindingoffset=0.5cm,
+            left=4cm,
+            right=2cm,
+            top=2.5cm,
+            bottom=3cm,
+            footskip=1.5cm,
+            headheight=15pt,
+             ]{geometry}
+\newcommand{\clearemptydoublepage}{%
+  \newpage{\pagestyle{empty}\cleardoublepage}}
+\newcommand{\clearemptypage}{%
+  \newpage{\pagestyle{empty}\clearpage}}
+  
+%% Paquetes extras
+% \usepackage{footnote} %savenotes ¿Incompatible con las pestañas de colores?
+  
+%%
+%% Colores
+%%
+
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\definecolor{GrisOxford}{gray}{0.5}
+\definecolor{AzulCielo}{rgb}{0.75,0.78,0.86}
+\definecolor{AzulCobalto}{rgb}{0.0,0.38,0.75}
+\definecolor{AzulCobaltoII}{rgb}{0.05,0.30,0.7}
+\definecolor{GrisOscuro}{rgb}{0.30,0.30,0.30}
+\definecolor{DarkGreen}{rgb}{0,0.5,0}
+\definecolor{DarkRed}{rgb}{0.5,0,0}
+\definecolor{VerdeOscuro}{rgb}{0.24,0.41,0.11}
+\definecolor{Violeta}{rgb}{0.64,0,0.81}
+\definecolor{Ultramarine}{RGB}{0,45,97}
+
+\definecolor{lightblue}{rgb}{0.93,0.95,1.0}
+\definecolor{lightred}{rgb}{1.0,0.93,0.95}
+\definecolor{lightgreen}{rgb}{0.93,1.0,0.95}
+\definecolor{lightviolet}{rgb}{1.0,0.93,1.0}
+
+\def\colEmph{AzulCobalto}
+\def\colSubtle{GrisOxford}
+\def\colCode{white!25!black}
+\def\colcodecomment{GrisOscuro}
+%\def\colSection{DarkBlue}
+\def\colSection{AzulCobalto}
+%\def\colSubSection{DarkBlue}
+\def\colSubSection{CadetBlue}
+\def\colLigas{AzulCobalto}
+\def\colReferencias{GrisOscuro}
+\def\colHeadRule{CadetBlue}
+\def\colFootnoteRule{Gray!60}
+\def\colMarcos{CadetBlue}
+\def\colBackground{\colMarcos!10}
+\def\colMnemo{Violeta}
+\def\colEmphCode{Purple}
+\def\colEncabezado{AzulCobalto!50}
+\def\colAnswer{AzulCobalto}
+\def\colNovelty{Orange}
+
+\def\colDrawingEmph{Violeta}
+\def\colSecondaryDrawingEmph{AzulCobalto!40}
+
+\def\colTableRow{lightblue}
+\def\colTableRowOne{lightred}
+\def\colTableRowTwo{lightgreen}
+\def\colTableRowThree{lightviolet}
+
+%\usepackage{showframe}
+
+%%
+%% Tikz
+%%
+
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{shapes, shapes.geometric,
+                arrows, arrows.meta, bending,
+                positioning, calc, fit, shadows, backgrounds,
+                decorations.markings, decorations.pathmorphing,
+                plotmarks}
+\usetikzlibrary{shapes.geometric,calc,fit}
+
+%%
+%% Formato (continuación)
+%%
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0.7em}
+\newlength{\shiftlefttitle}
+\setlength{\shiftlefttitle}{-50pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+
+% Only if there are chapters
+%\ifcsname chaptermark \endcsname
+\ifdefined \chaptermark
+  \renewcommand{\chaptermark}[1]{%
+    \markboth{\thechapter. {\small #1}}{}}
+\fi
+
+\renewcommand{\sectionmark}[1]{%
+  \markright{{\small\thesection\ #1}}}
+
+
+% auxiliary counter
+\newcounter{chapshift}
+\addtocounter{chapshift}{-1}
+
+% the list of colors to be used (add more if needed)
+
+\newcommand\BoxColor{%
+  \ifcase\thechapshift Ultramarine!30\or blue!30\or red!30\or olive!30\or magenta!30\else yellow!30\fi}
+   
+% \makeatletter
+\newcommand\ChapterBoxOdd{%
+ \begin{tikzpicture}[overlay,remember picture]
+   \node[fill=\BoxColor,inner sep=0pt,rectangle,text width=1cm,
+     text height=4cm,align=center,anchor=north east]
+   at ($ (current page.north east) + (-0cm,-1.2*\thechapshift cm) $)
+   {\rotatebox{90}{\parbox{4cm}{%
+     %\centering\textcolor{black}{\scshape\@chapapp~\thechapter}}}};
+     \centering\textcolor{black}{\scshape\leftmark}}}};
+ \end{tikzpicture}%
+}
+\newcommand\ChapterBoxEven{%
+ \begin{tikzpicture}[overlay,remember picture]
+   \node[fill=\BoxColor,inner sep=0pt,rectangle,text width=1cm,
+     text height=4cm,align=center,anchor=north east]
+   at ($ (current page.north west) + (1cm,-1.2*\thechapshift cm) $)
+   {\rotatebox{90}{\parbox{4cm}{%
+     %\centering\textcolor{black}{\scshape\@chapapp~\thechapter}}}};
+     \centering\textcolor{black}{\scshape\leftmark}}}};
+ \end{tikzpicture}%
+}
+
+\fancyhead[LO]{\fancyplain{\ChapterBoxOdd}{\ChapterBoxOdd}} % Print the nearest section name on the left side of odd pages
+\fancyhead[RE]{\fancyplain{\ChapterBoxEven}{\ChapterBoxEven}} % Print the current chapter name on the right side of even pages
+\fancyhead[RO]{\fancyplain{}{\rightmark}}
+\fancyhead[LE]{\fancyplain{}{\leftmark}}
+
+  
+  
+  
+
+\fancyhfoffset[L]{-\shiftlefttitle}
+\addtolength{\headwidth}{-\shiftlefttitle}
+
+\renewcommand{\headrule}{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
+  \vspace{-10pt}\hbox to\headwidth{%
+    \color{\colHeadRule}\leaders\hrule height \headrulewidth\hfill}}
+
+
+
+% Fancy footnote line
+\renewcommand{\footnoterule}{%
+ {\color{\colFootnoteRule}
+  \vspace*{5mm}
+  \kern -3pt
+  \hrule width 2in
+  \kern 2.6pt
+  \vspace*{2pt}}
+}
+
+\pagestyle{fancyplain}
+
+%%
+%% Lenguaje
+%%
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, mexico]{babel}
+
+
+
+%%
+%% Fuentes
+%%
+
+\usepackage{lmodern}
+\renewcommand*{\familydefault}{\sfdefault}
+
+
+
+%%
+%% Subrayados
+%%
+\usepackage[normalem]{ulem}
+
+\usepackage{letltxmacro}
+\LetLtxMacro{\oldtextsc}{\textsc}
+\renewcommand{\textsc}[1]{{\fontfamily{phv}\selectfont\oldtextsc{#1}}} % Usa Helvetica para las small caps, ya que cmss no tiene esa opción.
+\LetLtxMacro{\oldscshape}{\scshape}
+\renewcommand{\scshape}{\fontfamily{phv}\selectfont\oldscshape}
+
+\renewcommand{\emph}[1]{{\color{\colEmph}\textit{#1}}}
+
+% Fórmulas
+\usepackage[small, euler-digits]{eulervm}
+
+%% Decoraciones
+% Debe ir después de cargar xcolor para evitar conflictos de opciones.
+\usepackage[object=vectorian]{pgfornament}
+
+
+
+%%
+%% Matemáticas
+%%
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\allowdisplaybreaks[1]
+\usepackage{textcomp}
+\usepackage{gensymb}
+\usepackage{mathrsfs}
+\usepackage[makeroom]{cancel} % El término se cancela a x valor.
+\newcommand{\iacute}{\acute{\imath}}
+\usepackage{bm}
+\renewcommand{\vec}[1]{\boldsymbol{\lowercase{#1}}}
+\newcommand{\mat}[1]{\boldsymbol{\uppercase{#1}}}
+\newcommand{\set}[1]{\MakeUppercase{#1}}
+\usepackage{units}
+
+\newcommand{\mathemph}[1]{\textcolor{\colEmph}{#1}}
+\DeclareMathOperator*{\E}{\mathbb{E}}
+\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
+
+%%
+%% Ticks and crosses
+%%
+\def\gtick{\textcolor{DarkGreen}{\checkmark}}
+\def\rcross{\textcolor{DarkRed}{x}}
+
+
+%%
+%% Gráficos
+%%
+\usepackage{graphicx}
+\usepackage{rotating}
+
+
+
+%%
+%% Ambientes
+%%
+
+%% Caption
+\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup[longtable]{labelfont={bf, color=\colSection}, labelsep=quad}
+\captionsetup[table]{labelfont={bf, color=\colSection}, labelsep=quad}
+\captionsetup[figure]{labelfont={bf, color=\colSection}, labelsep=quad}
+\captionsetup[subfigure]{labelfont={bf, color=\colSection}, labelsep=quad}
+
+%% Enumeracion
+\usepackage[newenum,newitem]{paralist}
+\renewcommand*\descriptionlabel[1]{
+    \hspace\labelsep\normalfont\bfseries\color{DarkBlue} #1}
+\renewenvironment{compactdesc}[1][1.25em]
+  {\list{}{\labelwidth=0pt
+    \leftmargin=#1
+    \parsep=0pt
+    \itemsep=0pt
+    \topsep=0pt
+    \partopsep=0pt
+    %\itemindent-\leftmargin
+   \let\makelabel\descriptionlabel}}
+  {\endlist}
+
+% Fancy bullets
+\usepackage{textcomp} 
+\renewcommand{\labelitemi}{${\color{DarkBlue}\bullet}$} 
+\renewcommand{\labelitemii}{{\color{RoyalPurple}{\fontfamily{cmr}\selectfont\textborn}}}
+\renewcommand{\labelitemiii}{${\color{RoyalBlue}\ast}$}
+\renewcommand{\labelitemiv}{${\color{RoyalPurple}\cdot}$}
+
+
+% https://stackoverflow.com/questions/2983839/latex-two-captioned-verbatim-environments-side-by-side
+% \usepackage{float}
+% \newfloat{fileformat}{thp}{lof}[chapter]
+% \floatname{fileformat}{Archivo}
+% 
+% \usepackage{fancyvrb}
+% \DefineVerbatimEnvironment{archivo}{Verbatim}
+%     {fontsize=\small,
+%         fontfamily=tt,
+%         gobble=4,
+%         frame=single,
+%         framesep=5mm,
+%         baselinestretch=0.8,
+%         labelposition=topline,
+%         samepage=true}
+
+%% Columnas
+\usepackage{multicol}
+\usepackage{multirow}
+
+%%
+%% Tablas
+%%
+\usepackage{longtable,tabu}
+\usepackage{tabularx}
+\newcommand{\thead}[1]{\textbf{#1}}
+\newcommand{\tlongfoot}[1]{%
+  \hline \multicolumn{#1}{r}{\textcolor{gray}{Continúa...}} \\ \endfoot%
+  \hline \endlastfoot
+}
+%\usepackage{tabu}
+%\usepackage{booktabs}
+%\usepackage{colortbl}
+%https://tex.stackexchange.com/questions/176220/fancy-colored-array-in-latex
+\newcolumntype{H}{>{\columncolor{\colEncabezado}}c}
+\newcolumntype{I}{>{\columncolor{\colEncabezado}}l}
+\newcolumntype{B}{>{\columncolor{\colBackground}}c}
+\newcolumntype{L}{>{\columncolor{\colBackground}}l}
+\newcolumntype{A}{>{\columncolor{\colBackground}}X}
+\newcommand{\configcolortable}{
+ \arrayrulecolor{white}
+ \arrayrulewidth=1pt
+ \renewcommand{\arraystretch}{1.5}
+ \rowcolors[\hline]{3}{.!50!White}{}
+}
+
+%%
+%% Algorithms
+%%
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\renewcommand{\ALG@name}{Algoritmo}
+\renewcommand{\listalgorithmname}{List of \ALG@name s}
+\renewcommand{\algorithmicprocedure}{\textbf{procedimiento}}
+\algblockdefx[FOREACH]{ForEach}{EndFor}%
+     [2]{\textbf{for each} \textit{#1} \textbf{in} \textit{#2} \textbf{do}}%
+     {\textbf{end for}}
+
+     
+     
+%%
+%% Code
+%%
+\usepackage{listings}
+\captionsetup[lstlisting]{ %
+  %font={small,tt}
+  skip=0pt, labelfont={bf, color=\colSection}
+}
+\lstset{ %
+  language=Java,
+  aboveskip=20pt,
+  basicstyle=\ttfamily\footnotesize,        % the size of the fonts that are used for the code
+  commentstyle=\color{\colcodecomment}\textit,    % comment style
+  keywordstyle=\color{blue},       % keyword style
+  numbers=left,		% where to put the line-numbers; possible values are (none, left, right)
+  numberstyle=\tiny\color{GrisOxford}, % the style that is used for the line-numbers
+  frame=l,
+  framesep=4.5mm,
+  framexleftmargin=2.5mm,
+  fillcolor=\color{WhiteSmoke},
+  rulecolor=\color{Lavender},
+  showstringspaces=true,          % underline spaces within strings only
+  stringstyle=\color{VerdeOscuro},     % string literal style
+  extendedchars=true,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{\colMarcos}{$\hookrightarrow$}\space},
+  backgroundcolor=\color{AliceBlue},
+}
+\lstset{literate=
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\EUR}}1 {£}{{\pounds}}1
+  {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
+}
+\newcommand{\comment}[1]{{\color{VerdeOscuro}#1}}
+\newcommand{\code}[1]{\textcolor{\colCode}{\texttt{#1}}}
+
+\def\Java{\code{Java}}
+\def\Python{\code{Python}}
+
+\lstdefinestyle{shell}
+{
+  numbers=none
+}
+\lstdefinestyle{plaintext}
+{
+  numbers=none
+}
+\lstdefinelanguage{Grammar}
+{
+  sensitive=true,    % not case-sensitive
+  morecomment=[l]{;;}, % line comment
+  literate = {<}{{\textcolor{\colEmphCode}{\ttfamily <}}}1
+             {>}{{\textcolor{\colEmphCode}{\ttfamily >}}}1
+             {|}{{\textcolor{\colEmphCode}{\ttfamily |}}}1
+             {*}{{\textcolor{\colEmphCode}{\ttfamily *}}}1
+             {@(@}{{\textcolor{\colEmphCode}{\ttfamily (}}}1
+             {@)@}{{\textcolor{\colEmphCode}{\ttfamily )}}}1
+             %{$\emptyset$}{{\textcolor{\colEmphCode}{\ttfamily $\emptyset$}}}1
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\EUR}}1 {£}{{\pounds}}1
+  {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1, %
+  alsoletter={:,=},   % consider extra characters
+  keywords={
+    ::=
+  },
+  numbers=none,
+  mathescape=true,
+  frame=none,
+}
+%%
+%% TÍTULOS
+%%
+\usepackage{tcolorbox}
+\usepackage{eso-pic}
+
+\newcommand{\subtitle}[1]{\def\@subtitle{#1}}
+\newcommand{\publisher}[1]{\def\@publisher{#1}}
+\newcommand{\background}[1]{\def\@background{#1}}
+
+\tcbuselibrary{skins}
+
+\tcbset{
+    pccstyle/.style={
+        enhanced,flushright upper,
+        boxrule=1.4pt,
+        colback=white,colframe=\colMarcos,
+        drop fuzzy midday shadow=\colMarcos
+    }
+}
+\tcbset{
+    overlaystyle/.style={
+      flushright upper,
+      colback=white!50!\colMarcos,colframe=white
+    }
+}
+
+\makeatletter
+\@ifclassloaded{book}{
+  \AddToShipoutPicture*{% from package eso-pic: put something to the background
+      \AtPageCenter{% start the bar at the bottom right of the page
+	  \put(-\LenToUnit{.42\paperwidth},-\LenToUnit{.425\paperheight}){% move it to the middle
+	      %{\transparent{.5}{\includegraphics[width=20cm]{50th_mathematicsproof}}}
+	      \begin{tcolorbox}[pccstyle,left=0mm,top=0mm,bottom=0mm,width=18.3cm]
+		  %\includegraphics[width=20cm]{\@background}
+		  
+		  \includegraphics[width=18cm]{\@background}
+	      \end{tcolorbox}
+	  }%
+      }%
+  %     \AtPageLowerLeft{% start the bar at the bottom right of the page
+  %         \put(\LenToUnit{\dimexpr\paperwidth-3cm},0){% move it to the top right
+  %             \color{blue}\rule{3cm}{\LenToUnit\paperheight}%
+  %         }%
+  %         \put(\LenToUnit{\dimexpr\paperwidth-2.7cm},\LenToUnit{17cm}){% move it to the top right
+  %             \color{gray}\scalebox{8}{$\sum$}
+  %         }%
+  %         \put(\LenToUnit{\dimexpr\paperwidth-2.5cm},\LenToUnit{12.5cm}){% move it to the top right
+  %             \color{gray}\scalebox{8}{$\int$}
+  %         }%
+  %         \put(\LenToUnit{\dimexpr\paperwidth-2.3cm},\LenToUnit{8.5cm}){% move it to the top right
+  %             \color{gray}\scalebox{8}{$e$}
+  %         }%
+  %         \put(\LenToUnit{\dimexpr\paperwidth-2.7cm},\LenToUnit{5.0cm}){% move it to the top right
+  %             \color{gray}\scalebox{8}{$\pi$}
+  %         }%
+  %         \put(\LenToUnit{\dimexpr\paperwidth-2.2cm},\LenToUnit{1.5cm}){% move it to the top right
+  %             \color{gray}\scalebox{8}{$i$}
+  %         }%
+  %     }%
+  }
+}{}
+\makeatother
+
+\makeatletter
+\@ifclassloaded{book}{
+\renewcommand{\maketitle}[1]{
+  \newgeometry{left=1.5cm, right=1cm,bottom=1cm, top=2cm}
+  \thispagestyle{empty}
+  \begin{titlepage}
+    \pagenumbering{Alph}
+    \thispagestyle{empty} % Remove page numbering on this page
+
+    \mbox{}\hfill\scalebox{1.5}{
+      \begin{tcolorbox}[pccstyle,width=6.8cm]
+	  {\bfseries\LARGE {\@title} \par}
+	  \ifdefined\@subtitle
+	    {\large \itshape \@subtitle \par}
+	  \fi
+      \end{tcolorbox}
+    }
+    
+    \vspace*{1cm}
+    \hfill\scalebox{1.0}{
+      \begin{tcolorbox}[overlaystyle,width=7.5cm,halign=right]
+	{\large \@author }
+      \end{tcolorbox}
+    }
+
+    \vfill % Whitespace between the title block and the publisher
+    
+    \centering
+    
+    \scalebox{1.5}{%
+	\begin{tcolorbox}[pccstyle,width=7cm,halign=flush center]
+	    {\scshape \@publisher}
+	\end{tcolorbox}
+    }
+    
+    \clearpage % Whitespace to the end of the page
+  \end{titlepage}
+  \clearemptydoublepage
+  \restoregeometry
+}
+}{}\makeatother
+
+%% Titulo de Capitulos
+\usepackage[T1]{fontenc}
+\usepackage{titlesec}
+
+\titleformat
+  {\part}
+  {\Huge\bfseries\scshape}
+  {}
+  {0pt}
+  {\thispagestyle{empty}{\color{GrisOxford}\partname~\thepart}\newline}
+
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat
+  {name=\chapter, numberless}		% comando
+  [hang]		% forma
+  {\Huge\bfseries}	% formato
+  {} % etiqueta para capítulos numerados
+  {0pt}			% separación
+  {\stepcounter{chapshift}\hspace{\shiftlefttitle}\hsp\Huge\bfseries}	% código antes-de
+  
+\titleformat
+  {\chapter}		% comando
+  [hang]		% forma
+  {\Huge\bfseries}	% formato
+  {} % etiqueta para capítulos numerados
+  {0pt}			% separación
+  {\stepcounter{chapshift}\hspace{\shiftlefttitle}{\color{GrisOxford}\thechapter}\hsp\textcolor{DarkBlue}{|}\hsp\Huge\bfseries}	% código antes-de
+
+\titleformat
+  {\section}
+  [hang]
+  {\color{\colSection}\Large\bfseries\scshape}
+  {}
+  {0pt}
+  %{\hspace{\shiftlefttitle}\pgfornament[width=5mm,ydelta=-2.5mm,color=Periwinkle]{24}\hspace{1em}}
+  {\hspace{\shiftlefttitle}\hspace{1em}}
+  
+\titleformat
+  {\subsection}
+  [hang]
+  {\large\bfseries}
+  {}
+  {0pt}
+  {\hspace{0.5\shiftlefttitle}\hspace{0.5em}}
+  
+  
+%%
+%% PDF LINKS
+%%
+\usepackage[hyphens]{url}
+\usepackage[pdfpagemode={UseOutlines},
+            bookmarks=true,
+            bookmarksopen=true,
+            bookmarksopenlevel=0,
+            bookmarksnumbered=true,
+            hypertexnames=false,
+            colorlinks,
+            linkcolor={\colReferencias},
+            citecolor={RoyalBlue},
+            filecolor={Blue},
+            urlcolor={\colLigas},
+            linktoc=page,
+            pdfstartview={FitV},
+            unicode,
+            breaklinks=true,
+            linktocpage=true]{hyperref}
+\pdfstringdefDisableCommands{
+   \let\\\space
+}
+\newcommand{\hurl}[1]{\href{#1}{\texttt{\nolinkurl{#1}}}}
+\newcommand{\hrefformat}[2]{\href{#1}{{\color{\colLigas}\texttt{#2}}}}
+  
+  
+%%
+%% AMBIENTES ESPECIALES
+%%
+
+\usepackage[tikz]{mdframed}
+\mdfdefinestyle{linesstyle}{%,
+  frametitlealignment	=	\raggedright,
+  leftline=false,
+  rightline=false,
+}
+\mdfdefinestyle{definitionstyle}{%
+  frametitlealignment	=	\raggedright,
+  apptotikzsetting	=	{\tikzset{mdfframetitlebackground/.append style={%
+				shade,left color=blue!20, right color=\colMarcos}}},%
+  roundcorner		=	4pt,
+  skipabove		=	2\parskip,
+  innertopmargin	= 	\topskip,
+  innerbottommargin	=	\topskip,
+  backgroundcolor	=	\colMarcos!10,
+  linecolor		=	\colMarcos,
+}
+\mdfdefinestyle{syntaxstyle}{%
+  apptotikzsetting	=	{\tikzset{mdfframetitlebackground/.append style={%
+				shade,left color=blue!20, right color=blue!20}}},%
+  skipabove		=	2\parskip,
+  innertopmargin	= 	\topskip,
+  innerbottommargin	=	\topskip,
+  backgroundcolor	=	\colMarcos!10,
+  linecolor		=	blue!20,
+}
+
+\mdfdefinestyle{mnemonicstyle}{%
+  frametitlealignment	=	\raggedright,
+  skipabove		=	2\parskip,
+  fontcolor		=	\colMnemo,
+  shadow		=	true,
+  roundcorner		=	4pt,
+  userdefinedwidth	=	0.9\textwidth,
+  singleextra		=	{\hspace{1.1\shiftlefttitle}%
+                                 \node[shift={(0mm,8mm)}]{\pgfornament[width=10mm,color=Periwinkle]{152}};%
+                                 \hspace{-2\shiftlefttitle}},
+  firstextra		=	{\node[shift={(\shiftlefttitle,4mm)}]{\pgfornament[width=10mm,color=Periwinkle]{152}};},
+}
+\usepackage{etoolbox}
+\ifundef\chapter{
+  \newtheorem{theorem}{Teorema}
+  \mdtheorem[style=definitionstyle]{definition}{Definición}
+  \mdtheorem[style=syntaxstyle]{syntax}{Sintaxis y Semántica}
+  \mdtheorem[style=mnemonicstyle]{mnemonic}{Mnemo}
+  \newtheorem{proposition}{Proposición}
+  \newtheorem{example}{Ejemplo}
+  \newtheorem{exercise}{Ejercicio}
+  \mdtheorem[style=linesstyle]{activity}{Actividad}
+} %
+{
+  \newtheorem{theorem}{Teorema}[chapter]
+  \mdtheorem[style=definitionstyle]{definition}{Definición}[chapter]
+  \mdtheorem[style=syntaxstyle]{syntax}{Sintaxis y Semántica}[chapter]
+  \mdtheorem[style=mnemonicstyle]{mnemonic}{Mnemo}[chapter]
+  \newtheorem{proposition}{Proposición}[chapter]
+  \newtheorem{example}{Ejemplo}[chapter]
+  \newtheorem{exercise}{Ejercicio}[chapter]
+  \mdtheorem[style=linesstyle]{activity}{Actividad}[chapter]
+}
+
+%% Soluciones
+\newcommand{\answer}[1]{{\color{\colAnswer}#1}}
+\newenvironment{solution}{\color{\colAnswer}}{}
+
+%% Mark new material for next edition of the course
+\newenvironment{newmaterial}{\color{\colNovelty}}{}
+
+%% Table of contents
+\usepackage{tocloft}
+\usepackage{tocbibind}
+
+%% Directory Tree
+\usepackage{forest}
+
+
+%% Reference commands
+\newcommand{\fref}[1]{Figura~\ref{#1}}
+\newcommand{\tref}[1]{Tabla~\ref{#1}}
+\newcommand{\eref}[1]{Ecuación~\ref{#1}}
+\newcommand{\pref}[1]{Algoritmo~\ref{#1}}
+\newcommand{\cref}[1]{Capítulo~\ref{#1}}
+\newcommand{\sref}[1]{Sección~\ref{#1}}
+\newcommand{\aref}[1]{Apéndice~\ref{#1}}
+
+
+%% --- s-expressions
+%% https://tex.stackexchange.com/questions/632/using-prefix-notation
+% Falla con números negativos, separa el menos.
+
+% \makeatletter
+% \def\sx@stop{\relax}\def\sx@open{(}\def\sx@close{)}
+% \def\sx@scan#1{%
+%   \def\sx@arg{#1}%        save the current token
+%   \ifx\sx@arg\sx@stop   % is it the end of the list?
+%     \let\sx@next\relax
+%   \else
+%     \ifx\sx@arg\sx@close\else\sx@space\fi % add space unless token is ")"
+%     {\sx@arg}%                            % write the token
+%     \ifx\sx@arg\sx@open                   
+%       \let\sx@space\relax                 % kill next space if token is "("
+%     \else
+%       \let\sx@space\quad\;
+%     \fi
+%     \let\sx@next\sx@scan                  % scan next token
+%   \fi\sx@next
+% }
+% \newcommand{\sexp}[1]{\let\sx@space\relax\sx@scan#1\relax}
+% \makeatother
+
+
+%% --- Bibliography
+
+%\usepackage[backend=natbib]{biblatex}
+%\usepackage{natbib}
+%\bibliographystyle{agsm}
+\usepackage{csquotes}
+%\usepackage[backend=biber,style=authoryear,autocite=inline]{biblatex}
+\usepackage[backend=biber, style=authoryear]{biblatex}
+%\usepackage[backend=biber,style=agsm]{biblatex}
+%\usepackage[backend=biber]{biblatex}
