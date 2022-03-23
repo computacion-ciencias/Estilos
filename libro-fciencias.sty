@@ -333,12 +333,14 @@
  \rowcolors[\hline]{3}{.!50!White}{}
 }
 
+\newcommand{\indexcell}[1]{\multicolumn{1}{c}{\tiny{#1}}}
+\newcommand{\hindexcell}[1]{\multicolumn{1}{c|}{\tiny{#1}}}
+
 %%
 %% Algorithms
 %%
-\usepackage[noend]{algpseudocode}
-%\usepackage{algorithm, algorithmicx}
-\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{algorithm, algorithmicx}
 \renewcommand{\ALG@name}{Algoritmo}
 \renewcommand{\listalgorithmname}{List of \ALG@name s}
 \renewcommand{\algorithmicprocedure}{\textbf{procedimiento}}
@@ -352,6 +354,8 @@
 %% Code
 %%
 \usepackage{listings}
+\renewcommand{\lstlistingname}{Listado}
+
 \captionsetup[lstlisting]{ %
   %font={small,tt}
   skip=0pt, labelfont={bf, color=\colSection}
@@ -435,6 +439,7 @@
   mathescape=true,
   frame=none,
 }
+
 %%
 %% TÍTULOS
 %%
@@ -519,7 +524,7 @@
     
     \vspace*{1cm}
     \hfill\scalebox{1.0}{
-      \begin{tcolorbox}[overlaystyle,width=7.5cm,halign=right]
+      \begin{tcolorbox}[overlaystyle,width=8.5cm,halign=right]
 	{\large \@author }
       \end{tcolorbox}
     }
@@ -586,6 +591,11 @@
   {0pt}
   {\hspace{0.5\shiftlefttitle}\hspace{0.5em}}
   
+  
+%%
+%% Chapter
+%%
+\newcommand{\chapterauthor}[1]{\vspace*{-2em}{\color{GrisOxford}\Large\noindent #1}\vspace*{1em}}
   
 %%
 %% PDF LINKS
@@ -702,7 +712,7 @@
 \newcommand{\cref}[1]{Capítulo~\ref{#1}}
 \newcommand{\sref}[1]{Sección~\ref{#1}}
 \newcommand{\aref}[1]{Apéndice~\ref{#1}}
-
+\newcommand{\lref}[1]{Listado~\ref{#1}}
 
 %% --- s-expressions
 %% https://tex.stackexchange.com/questions/632/using-prefix-notation
