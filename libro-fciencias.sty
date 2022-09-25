@@ -28,6 +28,40 @@
   
 %% Paquetes extras
 % \usepackage{footnote} %savenotes ¿Incompatible con las pestañas de colores?
+
+
+%%
+%% Lenguaje
+%%
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, mexico]{babel}
+
+
+%%
+%% Fuentes
+%%
+\usepackage[T1]{fontenc}
+%\usepackage{lmodern}
+%\usepackage{tgadventor}
+%\usepackage{helvet}
+\usepackage{lmodern}
+\renewcommand*{\familydefault}{\sfdefault}
+\newcommand{\scaps}{\fontfamily{qag}\selectfont\scshape}
+
+% Fórmulas
+\usepackage[small, euler-digits]{eulervm}
+
+\usepackage{letltxmacro}
+\LetLtxMacro{\oldtextsc}{\textsc}
+\renewcommand{\textsc}[1]{{\fontfamily{qag}\selectfont\oldtextsc{#1}}} % Usa Helvetica para las small caps, ya que cmss no tiene esa opción.
+\LetLtxMacro{\oldscshape}{\scshape}
+\renewcommand{\scshape}{\fontfamily{qag}\selectfont\oldscshape}
+\LetLtxMacro{\oldsc}{\sc}
+\renewcommand{\sc}{\fontfamily{qag}\selectfont\oldsc}
+
+
+
   
 %%
 %% Colores
@@ -80,6 +114,15 @@
 
 %\usepackage{showframe}
 
+
+%%
+%% Subrayados
+%%
+\usepackage[normalem]{ulem}
+\renewcommand{\emph}[1]{{\color{\colEmph}\textit{#1}}}
+
+
+
 %%
 %% Tikz
 %%
@@ -102,6 +145,11 @@
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
+
+
+
+
+
 
 
 % Only if there are chapters
@@ -128,21 +176,19 @@
 \newcommand\ChapterBoxOdd{%
  \begin{tikzpicture}[overlay,remember picture]
    \node[fill=\BoxColor,inner sep=0pt,rectangle,text width=1cm,
-     text height=4cm,align=center,anchor=north east]
-   at ($ (current page.north east) + (-0cm,-1.2*\thechapshift cm) $)
-   {\rotatebox{90}{\parbox{4cm}{%
-     %\centering\textcolor{black}{\scshape\@chapapp~\thechapter}}}};
-     \centering\textcolor{black}{\scshape\leftmark}}}};
+     text height=5cm,align=center,anchor=north east]
+   at ($ (current page.north east) + (-0cm,-0.9*\thechapshift cm) + (-0cm, -0.85cm) $)
+   {\rotatebox{90}{\parbox{5cm}{%
+     \centering\textcolor{black}{\leftmark}}}};
  \end{tikzpicture}%
 }
 \newcommand\ChapterBoxEven{%
  \begin{tikzpicture}[overlay,remember picture]
    \node[fill=\BoxColor,inner sep=0pt,rectangle,text width=1cm,
-     text height=4cm,align=center,anchor=north east]
-   at ($ (current page.north west) + (1cm,-1.2*\thechapshift cm) $)
-   {\rotatebox{90}{\parbox{4cm}{%
-     %\centering\textcolor{black}{\scshape\@chapapp~\thechapter}}}};
-     \centering\textcolor{black}{\scshape\leftmark}}}};
+     text height=5cm,align=center,anchor=north east]
+   at ($ (current page.north west) + (1cm,-0.9*\thechapshift cm) + (-0cm, -0.85cm) $)
+   {\rotatebox{90}{\parbox{5cm}{%
+     \centering\textcolor{black}{\leftmark}}}};
  \end{tikzpicture}%
 }
 
@@ -176,37 +222,8 @@
 
 \pagestyle{fancyplain}
 
-%%
-%% Lenguaje
-%%
-
-\usepackage[utf8]{inputenc}
-\usepackage[spanish, mexico]{babel}
 
 
-
-%%
-%% Fuentes
-%%
-
-\usepackage{lmodern}
-\renewcommand*{\familydefault}{\sfdefault}
-
-%%
-%% Subrayados
-%%
-\usepackage[normalem]{ulem}
-
-\usepackage{letltxmacro}
-\LetLtxMacro{\oldtextsc}{\textsc}
-\renewcommand{\textsc}[1]{{\fontfamily{phv}\selectfont\oldtextsc{#1}}} % Usa Helvetica para las small caps, ya que cmss no tiene esa opción.
-\LetLtxMacro{\oldscshape}{\scshape}
-\renewcommand{\scshape}{\fontfamily{phv}\selectfont\oldscshape}
-
-\renewcommand{\emph}[1]{{\color{\colEmph}\textit{#1}}}
-
-% Fórmulas
-\usepackage[small, euler-digits]{eulervm}
 
 %% Decoraciones
 % Debe ir después de cargar xcolor para evitar conflictos de opciones.
@@ -258,6 +275,10 @@
 
 %% Caption
 \usepackage{caption}
+\DeclareCaptionFormat{auxcodeformat}{\textcolor{\colSection}{\\\textbf{#1#2}}#3}
+\DeclareCaptionType[placement=h!]{auxcode}[Código Auxiliar][Lista de códigos auxiliares]
+\captionsetup[auxcode]{format=auxcodeformat}
+
 \usepackage{subcaption}
 \captionsetup[longtable]{labelfont={bf, color=\colSection}, labelsep=quad}
 \captionsetup[table]{labelfont={bf, color=\colSection}, labelsep=quad}
@@ -268,6 +289,8 @@
 \usepackage[newenum,newitem]{paralist}
 \renewcommand*\descriptionlabel[1]{
     \hspace\labelsep\normalfont\bfseries\color{DarkBlue} #1}
+\renewcommand*\paradescriptionlabel[1]{%
+    \normalfont\bfseries #1}
 \renewenvironment{compactdesc}[1][1.25em]
   {\list{}{\labelwidth=0pt
     \leftmargin=#1
@@ -276,7 +299,7 @@
     \topsep=0pt
     \partopsep=0pt
     %\itemindent-\leftmargin
-   \let\makelabel\descriptionlabel}}
+   \let\makelabel\paradescriptionlabel}}
   {\endlist}
 
 % Fancy bullets
@@ -535,7 +558,7 @@
     
     \scalebox{1.5}{%
 	\begin{tcolorbox}[pccstyle,width=7cm,halign=flush center]
-	    {\scshape \@publisher}
+	    {\scaps \@publisher}
 	\end{tcolorbox}
     }
     
@@ -546,16 +569,54 @@
 }
 }{}\makeatother
 
+
+
+
+%\usepackage{titletoc}
+
+
+% \makeatletter
+%         \def\@chapter[#1]#2{%
+%             \ifnum \c@secnumdepth >\m@ne
+%                 \if@mainmatter
+%                     \refstepcounter{chapter}%
+%                     \typeout{\@chapapp\space\thechapter.}%
+%                     \addtocontents{toc}%
+%                     {%
+%                         \protect\parbox{\dimexpr\linewidth-5em\relax}{%
+%                             \protect
+%                             {\scaps\small\chaptername~\thechapter}\\\sffamily#1%
+%                             \protect%
+%                         }{\protect\parbox{4.5em}{\hfill\Huge\bfseries\thepage}}\par\noindent%
+%                     }%
+%                 \else
+%                     \addcontentsline{toc}{chapter}{#1}%
+%                 \fi
+%             \else
+%                 \addcontentsline{toc}{chapter}{#1}%
+%             \fi
+%             \chaptermark{#1}%
+%             \addtocontents{lof}{\protect\addvspace{10\p@}}%
+%             \addtocontents{lot}{\protect\addvspace{10\p@}}%
+%             \if@twocolumn
+%                 \@topnewpage[\@makechapterhead{#2}]%
+%             \else
+%                 \@makechapterhead{#2}%
+%                 \@afterheading
+%             \fi%
+%         }
+% \makeatother
+
+
 %% Titulo de Capitulos
-\usepackage[T1]{fontenc}
 \usepackage{titlesec}
 
 \titleformat
   {\part}
-  {\Huge\bfseries\scshape}
+  {\Huge\bfseries}
   {}
   {0pt}
-  {\thispagestyle{empty}{\color{GrisOxford}\partname~\thepart}\newline}
+  {\thispagestyle{empty}{\color{GrisOxford}\scaps\partname~\thepart}\newline}
 
 \newcommand{\hsp}{\hspace{20pt}}
 \titleformat
@@ -577,7 +638,7 @@
 \titleformat
   {\section}
   [hang]
-  {\color{\colSection}\Large\bfseries\scshape}
+  {\color{\colSection}\Large\bfseries}
   {}
   {0pt}
   %{\hspace{\shiftlefttitle}\pgfornament[width=5mm,ydelta=-2.5mm,color=Periwinkle]{24}\hspace{1em}}
