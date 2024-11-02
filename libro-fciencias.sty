@@ -67,7 +67,7 @@
 %% Colores
 %%
 
-\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage[dvipsnames,svgnames,table]{xcolor}
 \definecolor{GrisOxford}{gray}{0.5}
 \definecolor{AzulCielo}{rgb}{0.75,0.78,0.86}
 \definecolor{AzulCobalto}{rgb}{0.0,0.38,0.75}
@@ -576,6 +576,31 @@
 
 %\usepackage{titletoc}
 
+% Hace que en la tabla de contenidos aparezca el nombre largo del capítulo
+% en lugar del corto.
+\makeatletter
+  \def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
+                       \if@mainmatter
+                         \refstepcounter{chapter}%
+                         \typeout{\@chapapp\space\thechapter.}%
+                         \addcontentsline{toc}{chapter}%
+                                   {\protect\numberline{\thechapter}#2}%
+                       \else
+                         \addcontentsline{toc}{chapter}{#2}%
+                       \fi
+                    \else
+                      \addcontentsline{toc}{chapter}{#2}%
+                    \fi
+                    \chaptermark{#1}%
+                    \addtocontents{lof}{\protect\addvspace{10\p@}}%
+                    \addtocontents{lot}{\protect\addvspace{10\p@}}%
+                    \if@twocolumn
+                      \@topnewpage[\@makechapterhead{#2}]%
+                    \else
+                      \@makechapterhead{#2}%
+                      \@afterheading
+                    \fi}
+\makeatother
 
 % \makeatletter
 %         \def\@chapter[#1]#2{%
