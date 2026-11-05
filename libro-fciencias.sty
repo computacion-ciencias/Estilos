@@ -27,7 +27,7 @@
   \newpage{\pagestyle{empty}\clearpage}}
   
 %% Paquetes extras
-% \usepackage{footnote} %savenotes ¿Incompatible con las pestañas de colores?
+\usepackage{footnote} %savenotes ¿Incompatible con las pestañas de colores? 2026, funcionan.
 
 
 %%
@@ -35,7 +35,7 @@
 %%
 
 \usepackage[utf8]{inputenc}
-\usepackage[spanish, mexico]{babel}
+\usepackage[spanish, mexico, es-noindentfirst]{babel}
 
 
 %%
@@ -170,7 +170,7 @@
 % the list of colors to be used (add more if needed)
 
 \newcommand\BoxColor{%
-  \ifcase\thechapshift Ultramarine!30\or blue!30\or red!30\or olive!30\or magenta!30\else yellow!30\fi}
+  \ifcase\thechapshift Ultramarine!30\or blue!30\or red!30\or olive!30\or magenta!30\or yellow!30\or Ultramarine!30\or blue!30\or red!30\or olive!30\or magenta!30\or yellow!30\or Ultramarine!30\or blue!30\or red!30\or olive!30\or magenta!30\or yellow!30\else Violeta!30\fi}
    
 % \makeatletter
 \newcommand\ChapterBoxOdd{%
@@ -427,7 +427,8 @@
 
 \lstdefinestyle{shell}
 {
-  numbers=none
+  numbers=none,
+  language=bash,
 }
 \lstdefinestyle{plaintext}
 {
@@ -576,6 +577,31 @@
 
 %\usepackage{titletoc}
 
+% Hace que en la tabla de contenidos aparezca el nombre largo del capítulo
+% en lugar del corto.
+\makeatletter
+  \def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
+                       \if@mainmatter
+                         \refstepcounter{chapter}%
+                         \typeout{\@chapapp\space\thechapter.}%
+                         \addcontentsline{toc}{chapter}%
+                                   {\protect\numberline{\thechapter}#2}%
+                       \else
+                         \addcontentsline{toc}{chapter}{#2}%
+                       \fi
+                    \else
+                      \addcontentsline{toc}{chapter}{#2}%
+                    \fi
+                    \chaptermark{#1}%
+                    \addtocontents{lof}{\protect\addvspace{10\p@}}%
+                    \addtocontents{lot}{\protect\addvspace{10\p@}}%
+                    \if@twocolumn
+                      \@topnewpage[\@makechapterhead{#2}]%
+                    \else
+                      \@makechapterhead{#2}%
+                      \@afterheading
+                    \fi}
+\makeatother
 
 % \makeatletter
 %         \def\@chapter[#1]#2{%
@@ -768,15 +794,15 @@
 
 
 %% Reference commands
-\newcommand{\fref}[1]{Figura~\ref{#1}}
-\newcommand{\tref}[1]{Tabla~\ref{#1}}
-\newcommand{\eref}[1]{Ecuación~\ref{#1}}
-\newcommand{\pref}[1]{Algoritmo~\ref{#1}}
-\newcommand{\cref}[1]{Capítulo~\ref{#1}}
-\newcommand{\sref}[1]{Sección~\ref{#1}}
-\newcommand{\aref}[1]{Apéndice~\ref{#1}}
-\newcommand{\lref}[1]{Listado~\ref{#1}}
-\newcommand{\auxref}[1]{Código auxiliar~\ref{#1}}
+\newcommand{\fref}[1]{figura~\ref{#1}}
+\newcommand{\tref}[1]{tabla~\ref{#1}}
+\newcommand{\eref}[1]{ecuación~\ref{#1}}
+\newcommand{\pref}[1]{algoritmo~\ref{#1}}
+\newcommand{\cref}[1]{capítulo~\ref{#1}}
+\newcommand{\sref}[1]{sección~\ref{#1}}
+\newcommand{\aref}[1]{apéndice~\ref{#1}}
+\newcommand{\lref}[1]{listado~\ref{#1}}
+\newcommand{\auxref}[1]{código auxiliar~\ref{#1}}
 
 %% --- s-expressions
 %% https://tex.stackexchange.com/questions/632/using-prefix-notation
